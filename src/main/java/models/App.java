@@ -7,6 +7,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 public class App extends Application {
 
     private BorderPane root; // layout principal
@@ -119,11 +121,27 @@ public class App extends Application {
             String apellido = txtApellido.getText().trim();
             String telefono = txtTelefono.getText().trim();
 
-            if (agenda.buscarContacto(nombre, apellido).isPresent()) {
-                agenda.modificarTelefono(nombre,apellido,telefono);
-                resultado.setText("✅ Contacto editado");
-            } else {
-                resultado.setText("❌ No se editó el contacto.");
+            Optional<Contact> contactoOp = agenda.buscarContacto(nombre, apellido);
+
+            if (contactoOp.isPresent()) {
+                try {
+
+                    agenda.modificarTelefono(nombre,apellido,telefono);
+                    resultado.setText("✅ Contacto editado");
+
+                } catch (Exception ex) {
+                    resultado.setText(ex.getMessage());
+                }
+            }
+            else if (telefono.trim().isBlank()){
+                resultado.setText("telefono vacío");
+            }else if (nombre.trim().isBlank()){
+                resultado.setText("nombre vacío");
+            }else if (apellido.trim().isBlank()){
+                resultado.setText("apellido vacío");
+            }
+            else {
+                resultado.setText("❌ No se encontró el contacto.");
             }
         });
 

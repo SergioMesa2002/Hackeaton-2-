@@ -15,22 +15,27 @@ public class Agenda {
     }
 
     public String addContact(Contact contact) throws Exception {
-        if (contact.getName().isBlank()){
-            throw new Exception("El nombre no puede ser vacío");
-        }if (contact.getLastname().isBlank()){
-            throw new Exception("El apellido no puede ser vacío");
-        }if (contacts.size()>= maxQuantity){
-            throw new Exception("La lista está llena");
-        }if (contact.getPhone().isBlank()){
-            throw new Exception("El teléfono no puede ser vacío");
-        }
-
+        exepciones(contact);
+        agendaLlena();
 
         if (contacts.size() < maxQuantity  && !existeContacto(contact)){
             contacts.add(contact);
             return contact.getName() +  " " + contact.getLastname()+ " agregado a la lista";
         }else {
             return "Contacto no agregado";
+        }
+    }
+
+    public void exepciones(Contact contact) throws Exception {
+        if (contact.getName().isBlank()){
+            throw new Exception("El nombre no puede ser vacío");
+        }
+        if (contact.getLastname().isBlank()){
+            throw new Exception("El apellido no puede ser vacío");
+        }
+
+        if (contact.getPhone().isBlank() || contact.getPhone() == null){
+            throw new Exception("El teléfono no puede ser vacío");
         }
     }
 
@@ -67,14 +72,18 @@ public class Agenda {
     }
 
     // Ver si la agenda está llena
-    public boolean agendaLlena() {
-        return contacts.size() >= maxQuantity;
+    public void agendaLlena() throws Exception {
+        if (contacts.size()>= maxQuantity){
+            throw new Exception("La lista está llena");
+        }
     }
 
     // Espacios libres
     public int espaciosLibres() {
         return maxQuantity - contacts.size();
     }
+
+
 
 
 }
