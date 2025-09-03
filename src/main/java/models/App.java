@@ -141,6 +141,15 @@ public class App extends Application {
                 resultado.setText("El número debe tener al menos 10 caracteres");
                 return;
             }
+            if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Nombre inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+            if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Apellido inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+
 
             Optional<Contact> contactoOp = agenda.buscarContacto(nombre, apellido);
 
@@ -164,7 +173,23 @@ public class App extends Application {
             String apellido = txtApellido.getText().trim();
             String telefono = txtTelefono.getText().trim();
 
+            if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Nombre inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+            if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Apellido inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+            if (!telefono.matches("\\d+")) {
+                resultado.setText("El teléfono solo debe contener números");
+                return;
+            }
 
+            if (telefono.length()<10){
+                resultado.setText("El número debe tener al menos 10 caracteres");
+                return;
+            }
 
             if (agenda.buscarContacto(nombre, apellido).isEmpty()) {
                 try {
