@@ -14,27 +14,24 @@ public class Agenda {
         this.contacts = new ArrayList<>(maxQuantity);
     }
 
-    public String addContact(Contact contact) throws Exception {
+    public void addContact(Contact contact) throws Exception {
         exepciones(contact);
         agendaLlena();
 
         if (contacts.size() < maxQuantity  && !existeContacto(contact)){
             contacts.add(contact);
-            return contact.getName() +  " " + contact.getLastname()+ " agregado a la lista";
-        }else {
-            return "Contacto no agregado";
         }
     }
 
     public void exepciones(Contact contact) throws Exception {
-        if (contact.getName().isBlank()){
+        if (contact.getName().trim().isBlank()){
             throw new Exception("El nombre no puede ser vacío");
         }
-        if (contact.getLastname().isBlank()){
+        if (contact.getLastname().trim().isBlank()){
             throw new Exception("El apellido no puede ser vacío");
         }
 
-        if (contact.getPhone().isBlank() || contact.getPhone() == null){
+        if (contact.getPhone().trim().isBlank() || contact.getPhone() == null){
             throw new Exception("El teléfono no puede ser vacío");
         }
     }

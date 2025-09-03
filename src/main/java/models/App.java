@@ -121,9 +121,30 @@ public class App extends Application {
             String apellido = txtApellido.getText().trim();
             String telefono = txtTelefono.getText().trim();
 
+            if (telefono.trim().isBlank()){
+                resultado.setText("telefono vacío");
+                return;
+            }if (nombre.trim().isBlank()) {
+                resultado.setText("nombre vacío");
+                return;
+            }if (apellido.trim().isBlank()){
+                resultado.setText("apellido vacío");
+                return;
+            }
+
+            if (!telefono.matches("\\d+")) {
+                resultado.setText("❌ El teléfono solo debe contener números");
+                return;
+            }
+
+            if (telefono.length()<10){
+                resultado.setText("El número debe tener al menos 10 caracteres");
+                return;
+            }
+
             Optional<Contact> contactoOp = agenda.buscarContacto(nombre, apellido);
 
-            if (contactoOp.isPresent()) {
+            if (contactoOp.isPresent() && !telefono.trim().isBlank() ) {
                 try {
 
                     agenda.modificarTelefono(nombre,apellido,telefono);
@@ -132,15 +153,7 @@ public class App extends Application {
                 } catch (Exception ex) {
                     resultado.setText(ex.getMessage());
                 }
-            }
-            else if (telefono.trim().isBlank()){
-                resultado.setText("telefono vacío");
-            }else if (nombre.trim().isBlank()){
-                resultado.setText("nombre vacío");
-            }else if (apellido.trim().isBlank()){
-                resultado.setText("apellido vacío");
-            }
-            else {
+            }else {
                 resultado.setText("❌ No se encontró el contacto.");
             }
         });
@@ -166,14 +179,15 @@ public class App extends Application {
         });
 
         // Mostrar formulario dependiendo del tipo
-        if (tipo.equals("buscar")) {
-            formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido, btnBuscar, btnEliminar, resultado);
-        } else if (tipo.equals("eliminar")) {
-            formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido, btnEliminar, resultado);
-        } else if (tipo.equals("editar")) {
-            formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido,lblTelefono,txtTelefono, btnEditar, resultado);
-        } else if (tipo.equals("agregar")) {
-            formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido,lblTelefono,txtTelefono, btnAgregar, resultado);
+        switch (tipo) {
+            case "buscar" ->
+                    formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido, btnBuscar, btnEliminar, resultado);
+            case "eliminar" ->
+                    formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido, btnEliminar, resultado);
+            case "editar" ->
+                    formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido, lblTelefono, txtTelefono, btnEditar, resultado);
+            case "agregar" ->
+                    formulario.getChildren().addAll(lblNombre, txtNombre, lblApellido, txtApellido, lblTelefono, txtTelefono, btnAgregar, resultado);
         }
 
 
