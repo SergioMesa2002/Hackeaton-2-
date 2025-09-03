@@ -21,16 +21,16 @@ public class App extends Application {
         root = new BorderPane();
 
         // --- Simulamos contactos ---
-        agenda.addContact(new Contact("Juan", "gomez", "313431254"));
-        agenda.addContact(new Contact("Juanito", "gomez", "313431254"));
-        agenda.addContact(new Contact("Juancho", "gomez", "313431254"));
-        agenda.addContact(new Contact("Jua", "gomez", "313431254"));
-        agenda.addContact(new Contact("lolo", "gomez", "313431254"));
-        agenda.addContact(new Contact("hujhvjdo", "gomez", "313431254"));
-        agenda.addContact(new Contact("fhgvdhsu", "gomez", "313431254"));
-        agenda.addContact(new Contact("fijbehv", "gomez", "313431254"));
-        agenda.addContact(new Contact("jfivudhsbhj", "gomez", "313431254"));
-        agenda.addContact(new Contact("hvgdhiuv", "gomez", "313431254"));
+        agenda.addContact(new Contact("Andres", "Lopez", "3104567890"));
+        agenda.addContact(new Contact("Maria", "Fernandez", "3112345678"));
+        agenda.addContact(new Contact("Camilo", "Ramirez", "3129876543"));
+        agenda.addContact(new Contact("Laura", "Martinez", "3135432167"));
+        agenda.addContact(new Contact("Sofia", "Gonzalez", "3148765432"));
+        agenda.addContact(new Contact("Felipe", "Rodriguez", "3151234987"));
+        agenda.addContact(new Contact("Valentina", "Torres", "3162345678"));
+        agenda.addContact(new Contact("Daniel", "Castro", "3177654321"));
+        agenda.addContact(new Contact("Carolina", "Hernandez", "3183456789"));
+
 
         // --- Menú lateral ---
         VBox menu = new VBox(10);
@@ -95,6 +95,23 @@ public class App extends Application {
             String apellido = txtApellido.getText().trim();
             String nombreCompleto = nombre + " " + apellido;
 
+            if (nombre.trim().isBlank()) {
+                resultado.setText("nombre vacío");
+                return;
+            }
+            if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Nombre inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+            if (apellido.trim().isBlank()){
+                resultado.setText("apellido vacío");
+                return;
+            }
+            if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Apellido inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+
             if (agenda.buscarContacto(nombre, apellido).isPresent()) {
                 resultado.setText("✅ Contacto encontrado: " + nombreCompleto + " teléfono: " + agenda.buscarContacto(nombre, apellido).get().getPhone());
             } else {
@@ -121,14 +138,24 @@ public class App extends Application {
             String apellido = txtApellido.getText().trim();
             String telefono = txtTelefono.getText().trim();
 
-            if (telefono.trim().isBlank()){
-                resultado.setText("telefono vacío");
-                return;
-            }if (nombre.trim().isBlank()) {
+            if (nombre.trim().isBlank()) {
                 resultado.setText("nombre vacío");
                 return;
-            }if (apellido.trim().isBlank()){
+            }
+            if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Nombre inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+            if (apellido.trim().isBlank()){
                 resultado.setText("apellido vacío");
+                return;
+            }
+            if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
+                resultado.setText("Apellido inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
+                return;
+            }
+            if (telefono.trim().isBlank()){
+                resultado.setText("telefono vacío");
                 return;
             }
 
@@ -139,14 +166,6 @@ public class App extends Application {
 
             if (telefono.length()<10){
                 resultado.setText("El número debe tener al menos 10 caracteres");
-                return;
-            }
-            if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
-                resultado.setText("Nombre inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
-                return;
-            }
-            if (!apellido.matches("^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ]+$")) {
-                resultado.setText("Apellido inválido. Solo se permiten letras sin espacios ni caracteres especiales.");
                 return;
             }
 
